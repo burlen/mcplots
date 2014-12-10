@@ -21,10 +21,10 @@ do
             echo "processing freq=$freq res=$res crf=$crf"
             if [ ! -e ffp8_noise_${freq}_${res}_${crf}.mp4 ]
             then
-                aprun -n 1 ffmpeg -loglevel error -y -i \
-                    figures/ffp8_noise_${freq}_${res}_r_%05d.png \
+                aprun -n 1 ffmpeg -loglevel error -y \
+                    -i figures/ffp8_noise_${freq}_${res}_r_%05d.png \
                     -c:v libx264 -preset slow -crf $crf -pix_fmt yuv420p \
-                    ffp8_noise_${freq}_${res}_${crf}.mp4 \
+                    -threads 16 ffp8_noise_${freq}_${res}_${crf}.mp4 \
                     < /dev/null > fferr_$crf 2>&1
                 #pids[${#pids[@]}]=$!
             fi
@@ -44,10 +44,10 @@ do
         echo "processing 3x3 res=$res crf=$crf"
         if [ ! -e ffp8_noise_3x3_${res}_${crf}.mp4 ]
         then
-            aprun -n 1 ffmpeg -loglevel error -y -i \
-                figures_3x3/ffp8_noise_${res}_r_%05d.png \
+            aprun -n 1 ffmpeg -loglevel error -y \
+                -i figures_3x3/ffp8_noise_${res}_r_%05d.png \
                 -c:v libx264 -preset slow -crf $crf -pix_fmt yuv420p \
-                ffp8_noise_3x3_${res}_${crf}.mp4 \
+                -threads 16 ffp8_noise_3x3_${res}_${crf}.mp4 \
                 < /dev/null > fferr_$crf 2>&1
             #pids[${#pids[@]}]=$!
         fi
