@@ -1,0 +1,12 @@
+#PBS -S /bin/bash
+#PBS -j eo
+#PBS -V
+
+cd $PBS_O_WORKDIR
+
+source /project/projectdirs/cmb/modules/hpcports_NERSC.sh
+hpcports shared_gnu
+module load cmb
+export PYTHONPATH=/scratch1/scratchdirs/loring/mpi4py/lib/:$PYTHONPATH
+
+aprun -n $cores_per_job python mcplots_3x3.py $base_step
